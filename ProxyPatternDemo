@@ -1,0 +1,78 @@
+
+interface Image {
+
+    void display();
+}
+
+
+// 실제 객체
+class RealImage implements Image {
+
+    private String filename;
+
+    
+    public RealImage(String filename) {
+        this.filename = filename;
+        // 무거운 이미지를 로딩 작업을 수행한다.
+        loadFromDisk(filename);
+    }
+
+    public void loadFromDisk(String filename) {
+        System.out.println("Loding " + filename + "from disk");
+    }
+
+
+    @Override
+    public void display() {
+        System.out.println("Displaying " + filename);        
+    }
+
+
+}
+
+
+// 프록시 클래스 구현
+class ProxyImage implements Image {
+    // 실제 객체에 대한 레퍼런스(참조) 정보를 갖는다.
+    private RealImage realImage;
+
+    private String filename;
+
+      
+
+    public ProxyImage(String filename) {
+        this.filename = filename;
+    }
+
+
+    @Override
+    public void display() {
+
+        // 실제 객체의 메소드를 호출하는 시점에 RealImage 객체가 아직 생성되지 않았다면 생성합니다.
+        // 이것을 '지연 로딩'이라고 합니다.
+        if (realImage == null) {
+            realImage = new RealImage(filename);
+        }
+
+        realImage.display();
+        // TODO Auto-generated method stub
+        
+    }
+    
+}
+
+
+public class ProxyPatternDemo {
+    public static void main(String[] args) {
+        
+        // 이 시점에는 이미지가 로드되지 않습니다. 
+        Image obj1 = new ProxyImage("photo1.jpg");
+
+        // 첫 번째 display() 호출 시에만 photo1.jpg가 로드됩니다
+        obj1.display();
+
+        // 두 번째 호출 시에는 이미 로드되었으므로 다시 로드하지 않습니다. (캐시된 상태)
+        obj1.display();
+
+    }
+}
