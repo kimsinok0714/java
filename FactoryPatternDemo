@@ -1,0 +1,133 @@
+
+
+// 인터페이스 정의
+
+// Tire.java
+
+public interface Tire {
+
+    void inflate();
+
+}
+
+
+// Speaker.java
+
+public interface Speaker {
+
+    void playMusic();
+
+}
+
+===================================================================================================
+
+// 구현 클래스
+
+// ContinentalTire.java
+
+public class ContinentalTire implements Tire {
+
+    @Override
+
+    public void inflate() {
+
+        System.out.println("Continental Tire is inflated.");
+
+    }
+
+}
+
+
+// JblSpeaker.java
+
+public class JblSpeaker implements Speaker {
+
+    @Override
+
+    public void playMusic() {
+
+        System.out.println("JBL Speaker is playing music.");
+
+    }
+
+}
+
+
+====================================================================================
+
+public class Car {
+
+    private Tire tire;
+
+    private Speaker speaker;
+
+
+    public Car(Tire tire, Speaker speaker) {
+
+        this.tire = tire;
+
+        this.speaker = speaker;
+
+    }
+
+
+    public void start() {
+
+        tire.inflate();
+
+        speaker.playMusic();
+
+    }
+
+}
+
+
+
+======================================================================================================
+
+// 팩토리 패턴
+// 객체 생성의 책임을 별도의 팩토리 클래스에 위임하는 디자인 패턴 
+
+public class CarFactory {
+
+    public static Car createCar() {
+
+        Tire tire = new ContinentalTire();
+
+        Speaker speaker = new JblSpeaker();
+
+        return new Car(tire, speaker);
+
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Car car = CarFactory.createCar();
+
+        car.start();
+
+    }
+
+}
+
+
+
+===============================================================================================================
+
+
+public class FactoryPatternDemo {
+
+    public static void main(String[] args) {
+
+        Car car = CarFactory.createCar();
+
+        car.start();
+
+    }
+
+}
+
